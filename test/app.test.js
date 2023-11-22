@@ -1,32 +1,32 @@
-// const supertest = require("supertest");
-// const app = require("../app.js");
+const supertest = require("supertest");
+const app = require("../app.js");
 
-// const BASE_URL = "/api/v1";
+const BASE_URL = "/api/v1";
 
-// const userController = require("../controller/userController");
-// const hospitalController = require("../controller/hospitalController.js");
-// const siteController = require("../controller/siteController.js");
-// const reviewController = require("../controller/reviewController.js");
-// const donationBankController = require("../controller/donationBankController.js");
-// const bookScheduleController = require("../controller/bookScheduleController.js");
-// const scheduleController = require("../controller/scheduleController.js");
-// const scheduleStatusController = require("../controller/scheduleStatusController.js");
-// const campaignController = require("../controller/campaignController.js");
+const userController = require("../controller/userController");
+const hospitalController = require("../controller/hospitalController.js");
+const siteController = require("../controller/siteController.js");
+const reviewController = require("../controller/reviewController.js");
+const donationBankController = require("../controller/donationBankController.js");
+const bookScheduleController = require("../controller/bookScheduleController.js");
+const scheduleController = require("../controller/scheduleController.js");
+const scheduleStatusController = require("../controller/scheduleStatusController.js");
+const campaignController = require("../controller/campaignController.js");
 
-// //FAZER TESTE DE VALIDAÇÃO DE ID
+//FAZER TESTE DE VALIDAÇÃO DE ID
 
-// //HOSPITAL TESTS
-// describe("Integration Tests HOSPITAL", () => {
-//   //GET TESTS
-//   test("GET das estatísticas de um hospital", async () => {
-//     const response = await supertest(app).get(
-//       "/api/v1/hospital/1/statistics/ratings"
-//     );
+//HOSPITAL TESTS
+describe("Integration Tests HOSPITAL", () => {
+  //GET TESTS
+  test("GET das estatísticas de um hospital", async () => {
+    const response = await supertest(app).get(
+      "/api/v1/hospital/1/statistics/ratings"
+    );
 
-//     expect(response.status).toBe(200);
-//     expect(response.body).toHaveProperty("ratingsStatistics");
-//     expect(response.body.ratingsStatistics).toBeInstanceOf(Object);
-//   });
+    expect(response.status).toBe(200);
+    expect(response.body).toHaveProperty("ratingsStatistics");
+    expect(response.body.ratingsStatistics).toBeInstanceOf(Object);
+  });
 
 //   test("GET de um hospital que existe", async () => {
 //     const response = await supertest(app).get("/api/v1/hospital-data/1");
@@ -2193,4 +2193,4 @@
 //       "There are mandatory data that have not been filled in."
 //     );
 //   });
-// });
+ });
