@@ -1,0 +1,29 @@
+{
+  "prisma": {
+    "seed": "node prisma/seed.js"
+  },
+  "dependencies": {
+    "@prisma/client": "^5.6.0",
+    "body-parser": "^1.20.2",
+    "cors": "^2.8.5",
+    "crypto": "^1.0.1",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "fs": "^0.0.1-security",
+    "jest": "^29.7.0",
+    "jsonwebtoken": "^9.0.2",
+    "node-cron": "^3.0.3",
+    "nodemailer": "^6.9.7",
+    "nodemailer-express-handlebars": "^6.1.0",
+    "path": "^0.12.7",
+    "prisma": "^5.2.0",
+    "supertest": "^6.3.3",
+    "ws": "^8.14.2"
+  },
+  "scripts": {
+    "test": "jest"
+  },
+  "engines": {
+    "node": ">=16.14.2"
+  }
+}

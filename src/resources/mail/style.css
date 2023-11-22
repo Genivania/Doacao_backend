@@ -1,0 +1,104 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+ul,
+ol,
+li {
+  list-style: none;
+}
+
+a {
+  text-decoration: none;
+  color: white;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: "Abel", sans-serif;
+  display: grid;
+  justify-items: center;
+  background-color: #7395f7;
+  color: white;
+  font-size: 2rem;
+  position: relative;
+}
+
+.content {
+  max-width: 680px;
+  position: relative;
+}
+
+header {
+  display: flex;
+  gap: 18px;
+  align-items: center;
+  justify-content: center;
+  margin: 42px 0px;
+}
+
+main {
+  display: flex;
+  flex-direction: column;
+  gap: 42px;
+}
+
+.instruction__text {
+    text-align: center;
+}
+
+.instruction__link-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  align-self: center;
+  gap: 8px;
+  width: 532px;
+  height: 84px;
+  background-color: white;
+  border-radius: 20px;
+  padding: 24px;
+}
+
+.link__text {
+  color: #7395f7;
+}
+
+.link__link {
+  color: #1c54e9;
+}
+
+.doevida__name {
+  padding-top: 4px;
+  font-size: 4rem;
+}
+
+/* ORNAMENTS STYLE */
+.ornament1 {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.ornament2 {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+.ornament3 {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+}
+
+.ornament4 {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+}

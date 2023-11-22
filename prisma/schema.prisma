@@ -1,0 +1,230 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model BloodType {
+  id   Int    @id @unique @default(autoincrement())
+  type String @unique @db.VarChar(3)
+
+  User         User[]
+  DonationBank DonationBank[]
+
+  @@map("tbl_blood_type")
+}
+
+model Sex {
+  id  Int    @id @unique @default(autoincrement())
+  sex String @db.VarChar(10)
+
+  User User[]
+
+  @@map("tbl_sex")
+}
+
+model Address {
+  id           Int     @id @unique @default(autoincrement())
+  cep          String  @db.VarChar(9)
+  uf           String  @db.VarChar(2)
+  city         String  @db.VarChar(75)
+  neighborhood String  @db.VarChar(100)
+  street       String  @db.VarChar(150)
+  number       String  @db.VarChar(4)
+  complement   String? @db.VarChar(200)
+
+  Hospital Hospital[]
+  User     User[]
+
+  @@map("tbl_address")
+}
+
+model User {
+  id                   Int       @id @unique @default(autoincrement())
+  name                 String    @db.VarChar(100)
+  cpf                  String    @db.VarChar(14)
+  dateOfBirth          DateTime  @map("date_of_birth") @db.Date
+  password             String    @db.VarChar(50)
+  weight               Decimal   @db.Decimal(5, 2)
+  email                String    @db.VarChar(256)
+  photoUrl             String?   @map("photo_url") @db.Text
+  phone                String    @db.VarChar(15)
+  passwordResetToken   String?   @map("password_reset_token")
+  passwordResetExpires DateTime? @map("password_reset_expires")
+
+  idAddress   Int        @map("id_address")
+  Address     Address    @relation(fields: [idAddress], references: [id])
+  idSex       Int        @map("id_sex")
+  Sex         Sex        @relation(fields: [idSex], references: [id])
+  idBloodType Int        @default(1) @map("id_blood_type")
+  BloodType   BloodType  @relation(fields: [idBloodType], references: [id])
+  Review      Review[]
+  Schedule    Schedule[]
+
+  @@map("tbl_user")
+}
+
+model Hospital {
+  id         Int     @id @unique @default(autoincrement())
+  name       String  @db.VarChar(100)
+  cnpj       String  @db.VarChar(18)
+  email      String  @db.VarChar(256)
+  websiteUrl String? @map("website_url") @db.VarChar(200)
+  password   String  @db.VarChar(75)
+
+  idAddress    Int            @map("id_address")
+  Address      Address        @relation(fields: [idAddress], references: [id])
+  HospitalSite HospitalSite[]
+  Phone        Phone[]
+  Photo        Photo[]
+  Review       Review[]
+  Campaign     Campaign[]
+  DonationBank DonationBank[]
+
+  @@map("tbl_hospital")
+}
+
+model Campaign {
+  id          Int      @id @unique @default(autoincrement())
+  date        DateTime @db.Date
+  hour        DateTime @db.Time
+  description String   @db.Text
+  image       String   @db.Text
+
+  idHospital Int      @map("id_hospital")
+  Hospital   Hospital @relation(fields: [idHospital], references: [id])
+
+  @@map("tbl_campaign")
+}
+
+model DonationBank {
+  id      Int     @id @unique @default(autoincrement())
+  year    Int
+  bloodMl Decimal @map("blood_ml") @db.Decimal(7, 2)
+
+  idHospital  Int       @map("id_hospital")
+  Hospital    Hospital  @relation(fields: [idHospital], references: [id])
+  idBloodType Int       @map("id_blood_type")
+  BloodType   BloodType @relation(fields: [idBloodType], references: [id])
+
+  @@map("tbl_donation_bank")
+}
+
+model Site {
+  id   Int     @id @unique @default(autoincrement())
+  site String? @db.VarChar(150)
+
+  HospitalSite HospitalSite[]
+
+  @@map("tbl_site")
+}
+
+model HospitalSite {
+  id Int @id @unique @default(autoincrement())
+
+  idHospital   Int            @map("id_hospital")
+  Hospital     Hospital       @relation(fields: [idHospital], references: [id])
+  idSite       Int            @map("id_site")
+  Site         Site           @relation(fields: [idSite], references: [id])
+  BookSchedule BookSchedule[]
+
+  @@map("tbl_hospital_site")
+}
+
+model Phone {
+  id    Int    @id @unique @default(autoincrement())
+  phone String @db.VarChar(15)
+
+  idHospital Int      @map("id_hospital")
+  Hospital   Hospital @relation(fields: [idHospital], references: [id])
+
+  @@map("tbl_phone")
+}
+
+model Photo {
+  id  Int    @id @unique @default(autoincrement())
+  url String @db.Text
+
+  idHospital Int      @map("id_hospital")
+  Hospital   Hospital @relation(fields: [idHospital], references: [id])
+
+  @@map("tbl_photo")
+}
+
+model Star {
+  id         Int @id @unique @default(autoincrement())
+  starNumber Int @map("star_number")
+
+  Review Review[]
+
+  @@map("tbl_star")
+}
+
+model Review {
+  id      Int      @id @unique @default(autoincrement())
+  opinion String   @db.Text
+  date    DateTime @default(now())
+
+  idUser     Int      @map("id_user")
+  User       User     @relation(fields: [idUser], references: [id])
+  idHospital Int      @map("id_hospital")
+  Hospital   Hospital @relation(fields: [idHospital], references: [id])
+  idStar     Int      @map("id_star")
+  Star       Star     @relation(fields: [idStar], references: [id])
+
+  @@map("tbl_review")
+}
+
+model Status {
+  id             Int              @id @unique @default(autoincrement())
+  status         STATUS
+  ScheduleStatus ScheduleStatus[]
+
+  @@map("tbl_status")
+}
+
+enum STATUS {
+  CONCLUDED
+  SCHEDULED
+  RESCHEDULED
+  PENDING
+}
+
+model BookSchedule {
+  id   Int      @id @unique @default(autoincrement())
+  date DateTime @db.Date
+  hour DateTime @db.Time
+
+  idHospitalSite Int          @map("id_hospital_site")
+  HospitalSite   HospitalSite @relation(fields: [idHospitalSite], references: [id])
+  Schedule       Schedule[]
+
+  @@map("tbl_book_schedule")
+}
+
+model Schedule {
+  id Int @id @unique @default(autoincrement())
+
+  idUser         Int              @map("id_user")
+  User           User             @relation(fields: [idUser], references: [id])
+  idBookSchedule Int              @map("id_book_schedule")
+  BookSchedule   BookSchedule     @relation(fields: [idBookSchedule], references: [id])
+  ScheduleStatus ScheduleStatus[]
+
+  @@map("tbl_schedule")
+}
+
+model ScheduleStatus {
+  id          Int     @id @unique @default(autoincrement())
+  observation String? @db.VarChar(150)
+
+  idSchedule Int      @map("id_schedule")
+  Schedule   Schedule @relation(fields: [idSchedule], references: [id])
+  idStatus   Int      @map("id_status")
+  Status     Status   @relation(fields: [idStatus], references: [id])
+
+  @@map("tbl_schedule_status")
+}
