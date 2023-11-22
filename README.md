@@ -7,5 +7,4 @@
 ## npx prisma db seed (FAZ OS INSERTS DO SEED.JS)
 
 ## npm test (Faz os testes)# Doacao_backend
-# Doacao_backend
-# Doacao_backend
+
